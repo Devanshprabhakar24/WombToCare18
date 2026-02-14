@@ -1,3 +1,8 @@
+// Protected route
+  // Auth loading
+  // Not logged in
+  // Admin only
+  // Donor only
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';

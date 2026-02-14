@@ -1,3 +1,4 @@
+// Cert model
 import mongoose from 'mongoose';
 
 const certificateSchema = new mongoose.Schema({
@@ -32,7 +33,7 @@ const certificateSchema = new mongoose.Schema({
     timestamps: false,
 });
 
-// Index for faster lookups by donation
+// Donation index
 certificateSchema.index({ donationId: 1 });
 
 const Certificate = mongoose.model('Certificate', certificateSchema);

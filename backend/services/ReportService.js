@@ -1,16 +1,13 @@
+// Report service
 import Report from '../models/Report.js';
 import Program from '../models/Program.js';
 
 class ReportService {
-    /**
-     * Upload impact report
-     * @param {Object} reportData - Report details
-     * @returns {Promise<Object>} - Created report
-     */
+    // Upload report
     async uploadReport(reportData) {
         const { programId, reportFileURL, fundsReceived, fundsUtilized } = reportData;
 
-        // Verify program exists
+        // Check program
         const program = await Program.findById(programId);
         if (!program) {
             throw new Error('Program not found');
@@ -30,10 +27,7 @@ class ReportService {
         };
     }
 
-    /**
-     * Get all public reports
-     * @returns {Promise<Array>} - Array of reports
-     */
+    // All reports
     async getAllReports() {
         const reports = await Report.find()
             .populate('programId', 'programName description status')
@@ -55,11 +49,7 @@ class ReportService {
         }));
     }
 
-    /**
-     * Get report by program
-     * @param {string} programId - Program ID
-     * @returns {Promise<Object>} - Report details
-     */
+    // By program
     async getReportByProgram(programId) {
         const report = await Report.findOne({ programId })
             .sort({ lastUpdated: -1 })
@@ -77,12 +67,7 @@ class ReportService {
         };
     }
 
-    /**
-     * Update report
-     * @param {string} reportId - Report ID
-     * @param {Object} updateData - Data to update
-     * @returns {Promise<Object>} - Updated report
-     */
+    // Update report
     async updateReport(reportId, updateData) {
         const report = await Report.findByIdAndUpdate(
             reportId,
@@ -97,11 +82,7 @@ class ReportService {
         return report;
     }
 
-    /**
-     * Delete report
-     * @param {string} reportId - Report ID
-     * @returns {Promise<Object>} - Success message
-     */
+    // Delete report
     async deleteReport(reportId) {
         const report = await Report.findByIdAndDelete(reportId);
 
@@ -112,12 +93,7 @@ class ReportService {
         return { message: 'Report deleted successfully' };
     }
 
-    /**
-     * Get reports by date range
-     * @param {Date} startDate - Start date
-     * @param {Date} endDate - End date
-     * @returns {Promise<Array>} - Array of reports
-     */
+    // Reports by date
     async getReportsByDateRange(startDate, endDate) {
         const reports = await Report.find({
             lastUpdated: {

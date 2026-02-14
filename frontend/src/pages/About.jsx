@@ -1,3 +1,4 @@
+// About page
 import React from 'react';
 
 const About = () => {
@@ -20,7 +21,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* About Section 8 */}
+      {/* About section */}
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
@@ -35,7 +36,7 @@ const About = () => {
         </div>
       </section>
 
-      {/* Mission & Vision */}
+      {/* Mission/vision */}
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12">

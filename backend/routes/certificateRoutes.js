@@ -1,3 +1,4 @@
+// Cert routes
 import express from 'express';
 import { getCertificate, downloadCertificate } from '../controllers/certificateController.js';
 import { authenticateToken } from '../middleware/auth.js';

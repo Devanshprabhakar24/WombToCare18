@@ -1,11 +1,8 @@
+// Program logic
 import ProgramService from '../services/ProgramService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
-/**
- * Create new program
- * @route POST /api/programs
- * @access Private/Admin
- */
+// Create program
 export const createProgram = asyncHandler(async (req, res) => {
     const program = await ProgramService.createProgram(req.body);
 
@@ -16,11 +13,7 @@ export const createProgram = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get all programs
- * @route GET /api/programs
- * @access Public
- */
+// All programs
 export const getAllPrograms = asyncHandler(async (req, res) => {
     const { status } = req.query;
     const programs = await ProgramService.getAllProgramsWithFunds({ status });
@@ -32,11 +25,7 @@ export const getAllPrograms = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get program by ID
- * @route GET /api/programs/:id
- * @access Public
- */
+// Program by ID
 export const getProgramById = asyncHandler(async (req, res) => {
     const program = await ProgramService.getProgramById(req.params.id);
 
@@ -46,11 +35,7 @@ export const getProgramById = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Update program
- * @route PUT /api/programs/:id
- * @access Private/Admin
- */
+// Update program
 export const updateProgram = asyncHandler(async (req, res) => {
     const program = await ProgramService.updateProgram(req.params.id, req.body);
 
@@ -61,11 +46,7 @@ export const updateProgram = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Update program funds utilized
- * @route PUT /api/programs/:id/funds
- * @access Private/Admin
- */
+// Update funds
 export const updateFunds = asyncHandler(async (req, res) => {
     const { amount } = req.body;
     const result = await ProgramService.updateFundsUtilized(req.params.id, amount);
@@ -77,11 +58,7 @@ export const updateFunds = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Archive program
- * @route DELETE /api/programs/:id
- * @access Private/Admin
- */
+// Archive program
 export const archiveProgram = asyncHandler(async (req, res) => {
     const program = await ProgramService.archiveProgram(req.params.id);
 

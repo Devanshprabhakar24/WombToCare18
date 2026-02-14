@@ -1,12 +1,9 @@
+// Transparency logic
 import ProgramService from '../services/ProgramService.js';
 import ReportService from '../services/ReportService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
-/**
- * Get transparency data for all programs
- * @route GET /api/transparency/programs
- * @access Public
- */
+// All programs
 export const getTransparencyData = asyncHandler(async (req, res) => {
     const programs = await ProgramService.getAllProgramsWithFunds({ status: 'active' });
 
@@ -17,11 +14,7 @@ export const getTransparencyData = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get transparency reports
- * @route GET /api/transparency/reports
- * @access Public
- */
+// All reports
 export const getTransparencyReports = asyncHandler(async (req, res) => {
     const reports = await ReportService.getAllReports();
 

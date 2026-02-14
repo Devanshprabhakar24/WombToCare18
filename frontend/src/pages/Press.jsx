@@ -1,3 +1,5 @@
+
+// Press page
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 
@@ -7,8 +9,9 @@ const Press = () => {
 
     useEffect(() => {
         fetchPress();
-    }, []);
+    }, []); // On mount
 
+    // Fetch press
     const fetchPress = async () => {
         try {
             const response = await api.get('/blog?category=press');
@@ -17,7 +20,7 @@ const Press = () => {
             }
         } catch (error) {
             console.error('Error fetching press:', error);
-            // Fallback static data
+            // Static fallback
             setPressItems([
                 {
                     id: '1',
@@ -48,7 +51,7 @@ const Press = () => {
 
     return (
         <div>
-            {/* Hero */}
+            {/* Hero section */}
             <section className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-16">
                 <div className="container mx-auto px-4 text-center">
                     <h1 className="text-4xl font-bold mb-4">Press & Media</h1>
@@ -58,7 +61,7 @@ const Press = () => {
                 </div>
             </section>
 
-            {/* Press Items */}
+            {/* Press items */}
             <section className="py-16 bg-gray-50">
                 <div className="container mx-auto px-4">
                     {loading ? (
@@ -67,6 +70,7 @@ const Press = () => {
                         <div className="max-w-4xl mx-auto space-y-8">
                             {pressItems.map((item) => (
                                 <article key={item.id} className="bg-white rounded-lg shadow-md p-8">
+                                    {/* Press card */}
                                     <div className="flex items-center justify-between mb-4">
                                         <span className="bg-primary-100 text-primary-700 px-3 py-1 rounded-full text-sm font-medium">
                                             Press Release

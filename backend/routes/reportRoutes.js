@@ -1,3 +1,4 @@
+// Report routes
 import express from 'express';
 import {
     uploadReport,
@@ -13,7 +14,7 @@ const router = express.Router();
 router.get('/', getAllReports);
 router.get('/program/:programId', getReportByProgram);
 
-// Admin only routes
+// Admin routes
 router.post(
     '/',
     authenticateToken,

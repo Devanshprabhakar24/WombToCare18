@@ -1,3 +1,4 @@
+// User routes
 import express from 'express';
 import {
     getProfile,
@@ -9,7 +10,7 @@ import { updateProfileValidation, validate } from '../middleware/validation.js';
 
 const router = express.Router();
 
-// All routes require authentication
+// Auth required
 router.use(authenticateToken);
 
 router.get('/profile', getProfile);

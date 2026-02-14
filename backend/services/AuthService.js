@@ -1,17 +1,14 @@
+// Auth service
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
 class AuthService {
-    /**
-     * Register a new user
-     * @param {Object} userData - User registration data
-     * @returns {Promise<Object>} - User ID and JWT token
-     */
+    // Register user
     async register(userData) {
         const { name, email, phone, password, role = 'donor' } = userData;
 
-        // Check if user already exists
+        // Check exists
         const existingUser = await User.findOne({ email });
         if (existingUser) {
             throw new Error('User with this email already exists');
@@ -29,7 +26,7 @@ class AuthService {
             role,
         });
 
-        // Generate JWT token
+        // JWT token
         const token = this.generateToken(user._id, user.role);
 
         return {
@@ -41,27 +38,23 @@ class AuthService {
         };
     }
 
-    /**
-     * Login user
-     * @param {Object} credentials - Email and password
-     * @returns {Promise<Object>} - User ID, token, and role
-     */
+    // Login user
     async login(credentials) {
         const { email, password } = credentials;
 
-        // Find user by email
+        // Find by email
         const user = await User.findOne({ email });
         if (!user) {
             throw new Error('Invalid email or password');
         }
 
-        // Compare password
+        // Check password
         const isPasswordValid = await this.comparePassword(password, user.passwordHash);
         if (!isPasswordValid) {
             throw new Error('Invalid email or password');
         }
 
-        // Generate JWT token
+        // JWT token
         const token = this.generateToken(user._id, user.role);
 
         return {
@@ -73,11 +66,7 @@ class AuthService {
         };
     }
 
-    /**
-     * Verify JWT token
-     * @param {string} token - JWT token
-     * @returns {Promise<Object>} - User ID and role
-     */
+    // Verify token
     async verifyToken(token) {
         try {
             const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -90,32 +79,18 @@ class AuthService {
         }
     }
 
-    /**
-     * Hash password using bcrypt
-     * @param {string} password - Plain text password
-     * @returns {Promise<string>} - Hashed password
-     */
+    // Hash password
     async hashPassword(password) {
         const saltRounds = 10;
         return await bcrypt.hash(password, saltRounds);
     }
 
-    /**
-     * Compare password with hash
-     * @param {string} password - Plain text password
-     * @param {string} hash - Hashed password
-     * @returns {Promise<boolean>} - True if password matches
-     */
+    // Compare password
     async comparePassword(password, hash) {
         return await bcrypt.compare(password, hash);
     }
 
-    /**
-     * Generate JWT token
-     * @param {string} userId - User ID
-     * @param {string} role - User role
-     * @returns {string} - JWT token
-     */
+    // Generate token
     generateToken(userId, role) {
         return jwt.sign(
             { userId: userId.toString(), role },
@@ -124,11 +99,7 @@ class AuthService {
         );
     }
 
-    /**
-     * Get user by ID
-     * @param {string} userId - User ID
-     * @returns {Promise<Object>} - User object
-     */
+    // Get user by ID
     async getUserById(userId) {
         const user = await User.findById(userId).select('-passwordHash');
         if (!user) {

@@ -1,11 +1,8 @@
+// Report logic
 import ReportService from '../services/ReportService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
-/**
- * Upload impact report
- * @route POST /api/reports
- * @access Private/Admin
- */
+// Upload report
 export const uploadReport = asyncHandler(async (req, res) => {
     const report = await ReportService.uploadReport(req.body);
 
@@ -16,11 +13,7 @@ export const uploadReport = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get all reports
- * @route GET /api/reports
- * @access Public
- */
+// All reports
 export const getAllReports = asyncHandler(async (req, res) => {
     const reports = await ReportService.getAllReports();
 
@@ -31,11 +24,7 @@ export const getAllReports = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get report by program
- * @route GET /api/reports/program/:programId
- * @access Public
- */
+// Report by program
 export const getReportByProgram = asyncHandler(async (req, res) => {
     const report = await ReportService.getReportByProgram(req.params.programId);
 

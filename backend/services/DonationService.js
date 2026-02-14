@@ -1,3 +1,4 @@
+// Donation service
 import { v4 as uuidv4 } from 'uuid';
 import Donation from '../models/Donation.js';
 import Program from '../models/Program.js';
@@ -5,11 +6,7 @@ import Certificate from '../models/Certificate.js';
 import User from '../models/User.js';
 
 class DonationService {
-    /**
-     * Create donation record
-     * @param {Object} donationData - Donation details
-     * @returns {Promise<Object>} - Created donation
-     */
+    // Create donation
     async createDonation(donationData) {
         const {
             userId,
@@ -21,10 +18,10 @@ class DonationService {
             publicName,
         } = donationData;
 
-        // Generate donor ID if anonymous
+        // Gen donorId
         const donorId = visibilityChoice === 'anonymous' ? this.generateDonorId() : null;
 
-        // Create donation
+        // Create record
         const donation = await Donation.create({
             userId,
             amount,
@@ -43,28 +40,21 @@ class DonationService {
         };
     }
 
-    /**
-     * Generate unique donor ID for anonymous donations
-     * @returns {string} - Unique donor ID
-     */
+    // Gen donorId
     generateDonorId() {
-        // Generate a short, unique donor ID
+        // Short unique ID
         const uuid = uuidv4();
         return `DONOR-${uuid.substring(0, 8).toUpperCase()}`;
     }
 
-    /**
-     * Get donation history for a user
-     * @param {string} userId - User ID
-     * @returns {Promise<Array>} - Array of donations with details
-     */
+    // User history
     async getDonationHistory(userId) {
         const donations = await Donation.find({ userId })
             .populate('programId', 'programName description')
             .sort({ createdAt: -1 })
             .lean();
 
-        // Get certificates for each donation
+        // Get certs
         const donationsWithCertificates = await Promise.all(
             donations.map(async (donation) => {
                 const certificate = await Certificate.findOne({ donationId: donation._id });
@@ -85,10 +75,7 @@ class DonationService {
         return donationsWithCertificates;
     }
 
-    /**
-     * Get public donations for donor wall
-     * @returns {Promise<Array>} - Array of public donations
-     */
+    // Public donations
     async getPublicDonations() {
         const donations = await Donation.find({
             transactionStatus: 'completed',
@@ -110,11 +97,7 @@ class DonationService {
         }));
     }
 
-    /**
-     * Get donation by ID
-     * @param {string} donationId - Donation ID
-     * @returns {Promise<Object>} - Donation details
-     */
+    // Get by ID
     async getDonationById(donationId) {
         const donation = await Donation.findById(donationId)
             .populate('programId', 'programName description')
@@ -128,11 +111,7 @@ class DonationService {
         return donation;
     }
 
-    /**
-     * Get donation by order ID
-     * @param {string} orderId - Razorpay/Cashfree order ID
-     * @returns {Promise<Object>} - Donation details
-     */
+    // Get by orderId
     async getDonationByOrderId(orderId) {
         const donation = await Donation.findOne({ razorpayOrderId: orderId })
             .populate('programId', 'programName description')
@@ -155,11 +134,7 @@ class DonationService {
     }
 
 
-    /**
-     * Get all donations (admin only)
-     * @param {Object} filters - Filter options
-     * @returns {Promise<Array>} - Array of all donations
-     */
+    // All donations
     async getAllDonations(filters = {}) {
         const query = {};
 
@@ -190,10 +165,7 @@ class DonationService {
         return donations;
     }
 
-    /**
-     * Get donation statistics
-     * @returns {Promise<Object>} - Donation statistics
-     */
+    // Donation stats
     async getDonationStats() {
         const totalDonations = await Donation.countDocuments({
             transactionStatus: 'completed',

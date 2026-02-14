@@ -1,3 +1,4 @@
+// Donation logic
 import PaymentService from '../services/PaymentService.js';
 import DonationService from '../services/DonationService.js';
 import CertificateService from '../services/CertificateService.js';
@@ -7,11 +8,7 @@ import Donation from '../models/Donation.js';
 import Program from '../models/Program.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
-/**
- * Create Razorpay payment order
- * @route POST /api/donations/create-order
- * @access Private
- */
+// Create order
 export const createOrder = asyncHandler(async (req, res) => {
     const { amount, programId, visibilityChoice, publicName } = req.body;
 
@@ -58,11 +55,7 @@ export const createOrder = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Verify payment after completion
- * @route POST /api/donations/verify
- * @access Private
- */
+// Verify payment
 export const verifyPayment = asyncHandler(async (req, res) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
 
@@ -148,11 +141,7 @@ export const verifyPayment = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get donation history for logged-in user
- * @route GET /api/donations/history
- * @access Private
- */
+// User history
 export const getDonationHistory = asyncHandler(async (req, res) => {
     const donations = await DonationService.getDonationHistory(req.user.userId);
 
@@ -163,11 +152,7 @@ export const getDonationHistory = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get public donations for donor wall
- * @route GET /api/donations/public
- * @access Public
- */
+// Public donations
 export const getPublicDonations = asyncHandler(async (req, res) => {
     const donations = await DonationService.getPublicDonations();
 

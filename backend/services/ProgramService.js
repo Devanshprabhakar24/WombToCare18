@@ -1,15 +1,12 @@
+// Program service
 import Program from '../models/Program.js';
 
 class ProgramService {
-    /**
-     * Create new program
-     * @param {Object} programData - Program details
-     * @returns {Promise<Object>} - Created program
-     */
+    // Create program
     async createProgram(programData) {
         const { programName, description, targetAmount, startDate, endDate, status = 'active' } = programData;
 
-        // Check if program with same name exists
+        // Check exists
         const existingProgram = await Program.findOne({ programName });
         if (existingProgram) {
             throw new Error('Program with this name already exists');
@@ -32,12 +29,7 @@ class ProgramService {
         };
     }
 
-    /**
-     * Update funds received for a program
-     * @param {string} programId - Program ID
-     * @param {number} amount - Amount to add
-     * @returns {Promise<Object>} - Updated funds received
-     */
+    // Update received
     async updateFundsReceived(programId, amount) {
         const program = await Program.findByIdAndUpdate(
             programId,
@@ -54,12 +46,7 @@ class ProgramService {
         };
     }
 
-    /**
-     * Update funds utilized for a program
-     * @param {string} programId - Program ID
-     * @param {number} amount - New funds utilized amount
-     * @returns {Promise<Object>} - Updated funds utilized
-     */
+    // Update utilized
     async updateFundsUtilized(programId, amount) {
         const program = await Program.findById(programId);
 
@@ -80,11 +67,7 @@ class ProgramService {
         };
     }
 
-    /**
-     * Get transparency data for a program
-     * @param {string} programId - Program ID
-     * @returns {Promise<Object>} - Transparency data
-     */
+    // Transparency data
     async getTransparencyData(programId) {
         const program = await Program.findById(programId);
 
@@ -105,11 +88,7 @@ class ProgramService {
         };
     }
 
-    /**
-     * Get all programs with fund data
-     * @param {Object} filters - Filter options
-     * @returns {Promise<Array>} - Array of programs
-     */
+    // All programs
     async getAllProgramsWithFunds(filters = {}) {
         const query = {};
 
@@ -137,11 +116,7 @@ class ProgramService {
         }));
     }
 
-    /**
-     * Get program by ID
-     * @param {string} programId - Program ID
-     * @returns {Promise<Object>} - Program details
-     */
+    // Get by ID
     async getProgramById(programId) {
         const program = await Program.findById(programId).lean();
 
@@ -159,12 +134,7 @@ class ProgramService {
         };
     }
 
-    /**
-     * Update program details
-     * @param {string} programId - Program ID
-     * @param {Object} updateData - Data to update
-     * @returns {Promise<Object>} - Updated program
-     */
+    // Update program
     async updateProgram(programId, updateData) {
         const program = await Program.findByIdAndUpdate(
             programId,
@@ -179,11 +149,7 @@ class ProgramService {
         return program;
     }
 
-    /**
-     * Archive program
-     * @param {string} programId - Program ID
-     * @returns {Promise<Object>} - Archived program
-     */
+    // Archive program
     async archiveProgram(programId) {
         const program = await Program.findByIdAndUpdate(
             programId,
@@ -198,10 +164,7 @@ class ProgramService {
         return program;
     }
 
-    /**
-     * Get program statistics
-     * @returns {Promise<Object>} - Program statistics
-     */
+    // Program stats
     async getProgramStats() {
         const totalPrograms = await Program.countDocuments();
         const activePrograms = await Program.countDocuments({ status: 'active' });

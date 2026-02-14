@@ -1,3 +1,4 @@
+// Admin logic
 import DonationService from '../services/DonationService.js';
 import ProgramService from '../services/ProgramService.js';
 import User from '../models/User.js';
@@ -11,11 +12,7 @@ import {
     getScheduleOptions,
 } from '../scheduler.js';
 
-/**
- * Get admin dashboard analytics
- * @route GET /api/admin/dashboard
- * @access Private/Admin
- */
+// Dashboard stats
 export const getAdminDashboard = asyncHandler(async (req, res) => {
     const donationStats = await DonationService.getDonationStats();
     const programStats = await ProgramService.getProgramStats();
@@ -29,11 +26,7 @@ export const getAdminDashboard = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get all donations
- * @route GET /api/admin/donations
- * @access Private/Admin
- */
+// All donations
 export const getAllDonations = asyncHandler(async (req, res) => {
     const { programId, status, startDate, endDate } = req.query;
 
@@ -51,11 +44,7 @@ export const getAllDonations = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get all donors
- * @route GET /api/admin/donors
- * @access Private/Admin
- */
+// All donors
 export const getAllDonors = asyncHandler(async (req, res) => {
     const donors = await User.find({ role: 'donor' })
         .select('-passwordHash')
@@ -69,11 +58,7 @@ export const getAllDonors = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get email scheduler status
- * @route GET /api/admin/scheduler/status
- * @access Private/Admin
- */
+// Scheduler status
 export const getEmailSchedulerStatus = asyncHandler(async (req, res) => {
     const status = getSchedulerStatus();
 
@@ -83,11 +68,7 @@ export const getEmailSchedulerStatus = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Manually trigger progress report emails
- * @route POST /api/admin/scheduler/trigger
- * @access Private/Admin
- */
+// Trigger emails
 export const triggerEmailScheduler = asyncHandler(async (req, res) => {
     const result = await triggerProgressReports();
 
@@ -98,11 +79,7 @@ export const triggerEmailScheduler = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Enable email scheduler
- * @route POST /api/admin/scheduler/enable
- * @access Private/Admin
- */
+// Enable scheduler
 export const enableEmailScheduler = asyncHandler(async (req, res) => {
     const result = enableScheduler();
 
@@ -113,11 +90,7 @@ export const enableEmailScheduler = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Disable email scheduler
- * @route POST /api/admin/scheduler/disable
- * @access Private/Admin
- */
+// Disable scheduler
 export const disableEmailScheduler = asyncHandler(async (req, res) => {
     const result = disableScheduler();
 
@@ -128,18 +101,7 @@ export const disableEmailScheduler = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Set email scheduler configuration
- * @route PUT /api/admin/scheduler/config
- * @access Private/Admin
- * @body {
- *   type: 'weekly' | 'interval',
- *   dayOfWeek: 0-6 (0=Sunday),
- *   hour: 0-23,
- *   minute: 0-59,
- *   intervalDays: 1-365
- * }
- */
+// Set schedule
 export const setEmailScheduleConfig = asyncHandler(async (req, res) => {
     const { type, dayOfWeek, hour, minute, intervalDays } = req.body;
 
@@ -159,11 +121,7 @@ export const setEmailScheduleConfig = asyncHandler(async (req, res) => {
     }
 });
 
-/**
- * Get schedule configuration options (for UI dropdowns)
- * @route GET /api/admin/scheduler/options
- * @access Private/Admin
- */
+// Schedule options
 export const getEmailScheduleOptions = asyncHandler(async (req, res) => {
     const options = getScheduleOptions();
 

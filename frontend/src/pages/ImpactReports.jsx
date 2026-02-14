@@ -1,3 +1,5 @@
+
+// Impact Reports page
 import React, { useState, useEffect } from 'react';
 import api from '../services/api';
 
@@ -8,7 +10,7 @@ const ImpactReports = () => {
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, []); // On mount
 
   const fetchData = async () => {
     try {
@@ -31,19 +33,20 @@ const ImpactReports = () => {
 
   return (
     <div className="container mx-auto px-4 py-12">
+      {/* Page title */}
       <h1 className="text-4xl font-bold text-center mb-8">Impact Reports</h1>
       <p className="text-center text-gray-600 mb-12 max-w-2xl mx-auto">
         Transparency is at the heart of everything we do. See how your donations are making an impact.
       </p>
 
-      {/* Program Transparency */}
+      {/* Program section */}
       <section className="mb-12">
         <h2 className="text-2xl font-semibold mb-6">Program Fund Utilization</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {programs.map((program) => (
             <div key={program.programId} className="bg-white rounded-lg shadow-md p-6">
+              {/* Program name */}
               <h3 className="text-lg font-semibold mb-4">{program.programName}</h3>
-              
               <div className="space-y-2 mb-4">
                 <div className="flex justify-between text-sm">
                   <span>Funds Received:</span>
@@ -54,7 +57,7 @@ const ImpactReports = () => {
                   <span className="font-semibold">₹{program.fundsUtilized.toLocaleString('en-IN')}</span>
                 </div>
               </div>
-
+              {/* Utilization bar */}
               <div className="w-full bg-gray-200 rounded-full h-3 mb-2">
                 <div
                   className="bg-green-600 h-3 rounded-full"
@@ -67,12 +70,13 @@ const ImpactReports = () => {
         </div>
       </section>
 
-      {/* Reports */}
+      {/* Reports section */}
       <section>
         <h2 className="text-2xl font-semibold mb-6">Detailed Reports</h2>
         <div className="space-y-4">
           {reports.map((report) => (
             <div key={report.reportId} className="bg-white rounded-lg shadow-md p-6">
+              {/* Report name */}
               <h3 className="text-lg font-semibold mb-2">{report.programName}</h3>
               <p className="text-gray-600 text-sm mb-4">
                 Last Updated: {new Date(report.lastUpdated).toLocaleDateString('en-IN')}

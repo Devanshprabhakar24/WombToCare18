@@ -1,3 +1,4 @@
+// Program model
 import mongoose from 'mongoose';
 
 const programSchema = new mongoose.Schema({
@@ -73,17 +74,17 @@ const programSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-// Indexes for faster queries
+// Indexes
 programSchema.index({ programName: 1 });
 programSchema.index({ status: 1 });
 
-// Virtual field for utilization rate
+// Utilization virtual
 programSchema.virtual('utilizationRate').get(function () {
     if (this.fundsReceived === 0) return 0;
     return (this.fundsUtilized / this.fundsReceived) * 100;
 });
 
-// Ensure virtuals are included in JSON output
+// Virtuals in JSON
 programSchema.set('toJSON', { virtuals: true });
 programSchema.set('toObject', { virtuals: true });
 

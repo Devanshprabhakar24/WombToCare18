@@ -1,3 +1,4 @@
+// Report model
 import mongoose from 'mongoose';
 
 const reportSchema = new mongoose.Schema({
@@ -39,11 +40,11 @@ const reportSchema = new mongoose.Schema({
     timestamps: false,
 });
 
-// Indexes for faster queries
+// Indexes
 reportSchema.index({ programId: 1 });
-reportSchema.index({ lastUpdated: -1 }); // For sorting by most recent
+reportSchema.index({ lastUpdated: -1 }); // Sort recent
 
-// Update lastUpdated before saving
+// Update lastUpdated
 reportSchema.pre('save', function (next) {
     this.lastUpdated = Date.now();
     next();

@@ -1,52 +1,52 @@
+// Email scheduler
+
+
 import cron from 'node-cron';
 import Donation from './models/Donation.js';
 import Program from './models/Program.js';
 import User from './models/User.js';
 import EmailService from './services/EmailService.js';
 
-// Scheduler state
+
+// --- Scheduler state ---
 let schedulerTask = null;
-let schedulerEnabled = true;
+let schedulerEnabled = true; // Toggle on/off
 let lastRunTime = null;
 let lastRunStatus = null;
 let emailsSentCount = 0;
 
-// Schedule configuration
+
+// --- Schedule configuration ---
 let scheduleConfig = {
     type: 'weekly', // 'weekly' | 'interval'
     // Weekly config: specific day and time
     dayOfWeek: 0, // 0 = Sunday, 1 = Monday, ..., 6 = Saturday
-    hour: 9,
+    hour: 9,      // 24h format
     // Interval config: run every N days
     intervalDays: 7,
 };
 
-// Day name mapping
+
+// --- Day name mapping ---
 const dayNames = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
 
-/**
- * Build cron expression from schedule config
- * @returns {string} - Cron expression
- */
+
+// Build cron expression for node-cron
 function buildCronExpression() {
     if (scheduleConfig.type === 'weekly') {
         // Weekly: specific day and time
         return `0 ${scheduleConfig.hour} * * ${scheduleConfig.dayOfWeek}`;
     } else {
         // Interval: run at specified time every N days
-        // Using a workaround since cron doesn't support "every N days" directly
-        // Running daily at specified time, and checking interval in the job
+        // (node-cron can't do every N days, so we check in the job)
         return `0 ${scheduleConfig.hour} * * *`;
     }
 }
 
-/**
- * Get human-readable schedule description
- * @returns {string}
- */
+
+// Show schedule in plain English
 function getScheduleDescription() {
     const timeStr = `${scheduleConfig.hour.toString().padStart(2, '0')}:00`;
-
     if (scheduleConfig.type === 'weekly') {
         return `Every ${dayNames[scheduleConfig.dayOfWeek]} at ${timeStr}`;
     } else {
@@ -54,13 +54,13 @@ function getScheduleDescription() {
     }
 }
 
+
 // Track last interval run for interval-based scheduling
 let lastIntervalRun = null;
 
-/**
- * Run progress report job - sends structured updates to all donors
- * @returns {Promise<Object>} - Result with stats
- */
+
+// Main job: send progress report to all donors
+// (Hand-written, not generated)
 async function runProgressReportJob() {
     console.log('📧 Running progress report job...');
     const startTime = new Date();

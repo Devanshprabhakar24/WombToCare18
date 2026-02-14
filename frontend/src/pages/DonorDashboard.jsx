@@ -1,3 +1,4 @@
+// Donor dashboard
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -57,7 +58,7 @@ const DonorDashboard = () => {
       </div>
 
       <div className="container mx-auto px-4 py-8 space-y-6">
-        {/* Donate Button */}
+        {/* Donate button */}
         <Link
           to="/donate"
           className="block bg-primary-600 text-white text-center py-3 rounded-xl font-medium hover:bg-primary-700 text-lg"

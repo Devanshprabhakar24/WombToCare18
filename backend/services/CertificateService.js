@@ -1,3 +1,4 @@
+// Cert service
 import PDFDocument from 'pdfkit';
 import fs from 'fs';
 import path from 'path';
@@ -12,22 +13,18 @@ const __dirname = path.dirname(__filename);
 
 class CertificateService {
     constructor() {
-        // Create certificates directory if it doesn't exist
+        // Ensure dir
         this.certificatesDir = path.join(__dirname, '..', 'certificates');
         if (!fs.existsSync(this.certificatesDir)) {
             fs.mkdirSync(this.certificatesDir, { recursive: true });
         }
     }
 
-    /**
-     * Generate 80G certificate PDF
-     * @param {Object} certificateData - Certificate details
-     * @returns {Promise<Object>} - Certificate URL
-     */
+    // Generate 80G PDF
     async generate80GCertificate(certificateData) {
         const { donationId, userId, amount, programId } = certificateData;
 
-        // Get donation, user, and program details
+        // Get details
         const donation = await Donation.findById(donationId);
         const user = await User.findById(userId);
         const program = await Program.findById(programId);
@@ -36,17 +33,17 @@ class CertificateService {
             throw new Error('Invalid donation, user, or program data');
         }
 
-        // Generate unique filename
+        // Unique filename
         const filename = `80G_${donationId}_${Date.now()}.pdf`;
         const filepath = path.join(this.certificatesDir, filename);
 
-        // Create PDF document
+        // Create PDF
         const doc = new PDFDocument({ size: 'A4', margin: 50 });
         const writeStream = fs.createWriteStream(filepath);
 
         doc.pipe(writeStream);
 
-        // Add certificate content
+        // Add content
         this.addCertificateHeader(doc);
         this.addCertificateBody(doc, {
             donorName: user.name,
@@ -66,7 +63,7 @@ class CertificateService {
             writeStream.on('error', reject);
         });
 
-        // Store certificate record in database
+        // Store record
         const certificateURL = `/certificates/${filename}`;
         await Certificate.create({
             donationId,
@@ -79,8 +76,8 @@ class CertificateService {
 
     /**
      * Generate 12A certificate PDF
-     * @param {Object} certificateData - Certificate details
-     * @returns {Promise<Object>} - Certificate URL
+     * @param {Object} certificateData 
+     * @returns {Promise<Object>} 
      */
     async generate12ACertificate(certificateData) {
         const { donationId, userId, amount, programId } = certificateData;
@@ -154,10 +151,7 @@ class CertificateService {
         return { certificateURL };
     }
 
-    /**
-     * Add certificate header
-     * @param {PDFDocument} doc - PDF document
-     */
+    // Add header
     addCertificateHeader(doc) {
         doc
             .fontSize(24)
@@ -198,11 +192,7 @@ class CertificateService {
             .moveDown(2);
     }
 
-    /**
-     * Add certificate body
-     * @param {PDFDocument} doc - PDF document
-     * @param {Object} data - Certificate data
-     */
+    // Add body
     addCertificateBody(doc, data) {
         const { donorName, amount, date, programName, donationId, razorpayPaymentId } = data;
 
@@ -257,10 +247,7 @@ class CertificateService {
             .moveDown(1);
     }
 
-    /**
-     * Add certificate footer
-     * @param {PDFDocument} doc - PDF document
-     */
+    // Add footer
     addCertificateFooter(doc) {
         doc.moveDown(3);
 
@@ -296,11 +283,7 @@ class CertificateService {
             );
     }
 
-    /**
-     * Get certificate by donation ID
-     * @param {string} donationId - Donation ID
-     * @returns {Promise<Object>} - Certificate details
-     */
+    // Get by donation
     async getCertificateByDonation(donationId) {
         const certificate = await Certificate.findOne({ donationId }).lean();
 
@@ -315,11 +298,7 @@ class CertificateService {
         };
     }
 
-    /**
-     * Get certificate file path
-     * @param {string} filename - Certificate filename
-     * @returns {string} - Full file path
-     */
+    // Get file path
     getCertificateFilePath(filename) {
         return path.join(this.certificatesDir, filename);
     }

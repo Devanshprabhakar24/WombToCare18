@@ -1,13 +1,10 @@
+// User logic
 import AuthService from '../services/AuthService.js';
 import DonationService from '../services/DonationService.js';
 import User from '../models/User.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
-/**
- * Get user profile
- * @route GET /api/users/profile
- * @access Private
- */
+// Get profile
 export const getProfile = asyncHandler(async (req, res) => {
     const user = await AuthService.getUserById(req.user.userId);
 
@@ -17,11 +14,7 @@ export const getProfile = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Update user profile
- * @route PUT /api/users/profile
- * @access Private
- */
+// Update profile
 export const updateProfile = asyncHandler(async (req, res) => {
     const { name, phone } = req.body;
 
@@ -38,11 +31,7 @@ export const updateProfile = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get donor dashboard data
- * @route GET /api/users/dashboard
- * @access Private/Donor
- */
+// Donor dashboard
 export const getDonorDashboard = asyncHandler(async (req, res) => {
     const donations = await DonationService.getDonationHistory(req.user.userId);
 

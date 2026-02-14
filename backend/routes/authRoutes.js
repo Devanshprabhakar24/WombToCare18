@@ -1,3 +1,4 @@
+// Auth routes
 import express from 'express';
 import { register, login, getMe } from '../controllers/authController.js';
 import { registerValidation, loginValidation, validate } from '../middleware/validation.js';
@@ -6,7 +7,7 @@ import { authLimiter } from '../middleware/rateLimiter.js';
 
 const router = express.Router();
 
-// Public routes with rate limiting
+// Public routes
 router.post('/register', authLimiter, registerValidation, validate, register);
 router.post('/login', authLimiter, loginValidation, validate, login);
 

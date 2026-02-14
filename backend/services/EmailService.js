@@ -1,3 +1,4 @@
+// Email service
 import nodemailer from 'nodemailer';
 import User from '../models/User.js';
 import Program from '../models/Program.js';
@@ -45,7 +46,7 @@ class EmailService {
         return { success: false, error: 'Email not configured' };
       }
 
-      // Get user and program details
+      // Get details
       const user = await User.findById(userId);
       const program = await Program.findById(programId);
 
@@ -71,16 +72,12 @@ class EmailService {
       return { success: true };
     } catch (error) {
       console.error('Email sending error:', error);
-      // Log error but don't throw - email failure shouldn't break donation flow
+      // Log error
       return { success: false, error: error.message };
     }
   }
 
-  /**
-   * Send weekly progress report
-   * @param {Object} emailData - Email details
-   * @returns {Promise<Object>} - Success status
-   */
+  // Weekly report
   async sendWeeklyProgressReport(emailData) {
     const { recipientEmail, donorName, programs } = emailData;
 
@@ -109,22 +106,13 @@ class EmailService {
     }
   }
 
-  /**
-   * Retry failed email
-   * @param {string} emailId - Email ID
-   * @returns {Promise<Object>} - Success status
-   */
+  // Retry email
   async retryFailedEmail(emailId) {
-    // Implementation for retry logic with exponential backoff
-    // This would typically involve a queue system like Bull or Agenda
+    // Retry logic
     return { success: true };
   }
 
-  /**
-   * Get donation confirmation email template
-   * @param {Object} data - Template data
-   * @returns {string} - HTML template
-   */
+  // Donation template
   getDonationConfirmationTemplate(data) {
     const { donorName, amount, programName, donationId, certificateURL } = data;
 
@@ -172,12 +160,7 @@ class EmailService {
     `;
   }
 
-  /**
-   * Get structured progress report email template
-   * Includes detailed program metrics: target, received, utilized, remaining, progress %
-   * @param {Object} data - Template data
-   * @returns {string} - HTML template
-   */
+  // Progress template
   getProgressReportTemplate(data) {
     const { donorName, programs } = data;
 

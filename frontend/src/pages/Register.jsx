@@ -1,3 +1,5 @@
+
+// Register page
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
@@ -14,10 +16,14 @@ const Register = () => {
   const { register } = useAuth();
   const navigate = useNavigate();
 
+
+  // Handle input
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
+
+  // Handle submit
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
@@ -35,9 +41,11 @@ const Register = () => {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
+      {/* Register card */}
       <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
         <h2 className="text-3xl font-bold text-center mb-8">Register</h2>
 
+        {/* Error message */}
         {error && (
           <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
             {error}
@@ -45,6 +53,7 @@ const Register = () => {
         )}
 
         <form onSubmit={handleSubmit} className="space-y-6">
+          {/* Name input */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Name
@@ -59,6 +68,7 @@ const Register = () => {
             />
           </div>
 
+          {/* Email input */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Email
@@ -73,6 +83,7 @@ const Register = () => {
             />
           </div>
 
+          {/* Phone input */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Phone
@@ -89,6 +100,7 @@ const Register = () => {
             />
           </div>
 
+          {/* Password input */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-2">
               Password
@@ -104,6 +116,7 @@ const Register = () => {
             />
           </div>
 
+          {/* Submit button */}
           <button
             type="submit"
             disabled={loading}
@@ -113,6 +126,7 @@ const Register = () => {
           </button>
         </form>
 
+        {/* Login link */}
         <p className="text-center mt-4 text-gray-600">
           Already have an account?{' '}
           <Link to="/login" className="text-primary-600 hover:underline">

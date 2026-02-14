@@ -1,3 +1,4 @@
+// Payment service
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
 
@@ -9,7 +10,7 @@ class PaymentService {
     _getRazorpayInstance() {
         if (this.razorpay) return this.razorpay;
 
-        // Check if we should use mock mode
+        // Mock mode
         const useMockMode = process.env.NODE_ENV === 'development' &&
             process.env.USE_MOCK_PAYMENTS === 'true';
 
@@ -31,16 +32,12 @@ class PaymentService {
         }
     }
 
-    /**
-     * Create Razorpay order
-     * @param {Object} orderData - Order details
-     * @returns {Promise<Object>} - Order details
-     */
+    // Create order
     async createOrder(orderData) {
         const { amount, userId } = orderData;
         const razorpay = this._getRazorpayInstance();
 
-        // Mock mode check
+        // Mock mode
         if (!razorpay && (process.env.NODE_ENV === 'development' && process.env.USE_MOCK_PAYMENTS === 'true')) {
             const orderId = `order_${Date.now()}_${userId}`;
             console.log('🧪 MOCK: Creating Razorpay order', { orderId, amount });
@@ -73,13 +70,7 @@ class PaymentService {
         }
     }
 
-    /**
-     * Verify payment signature
-     * @param {string} razorpayOrderId - Razorpay Order ID
-     * @param {string} razorpayPaymentId - Razorpay Payment ID
-     * @param {string} razorpaySignature - Razorpay Signature
-     * @returns {boolean} - True if signature is valid
-     */
+    // Verify signature
     verifyPaymentSignature(razorpayOrderId, razorpayPaymentId, razorpaySignature) {
         // Mock mode check
         if (process.env.NODE_ENV === 'development' && process.env.USE_MOCK_PAYMENTS === 'true') {
@@ -87,7 +78,7 @@ class PaymentService {
         }
 
         try {
-            // Ensure keys are present
+            // Check keys
             if (!process.env.RAZORPAY_KEY_SECRET) {
                 console.error('Razorpay secret missing for verification');
                 return false;

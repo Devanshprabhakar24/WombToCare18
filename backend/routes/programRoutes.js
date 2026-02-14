@@ -1,3 +1,4 @@
+// Program routes
 import express from 'express';
 import {
     createProgram,
@@ -21,7 +22,7 @@ const router = express.Router();
 router.get('/', getAllPrograms);
 router.get('/:id', mongoIdValidation, validate, getProgramById);
 
-// Admin only routes
+// Admin routes
 router.post(
     '/',
     authenticateToken,

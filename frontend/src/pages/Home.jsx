@@ -1,3 +1,4 @@
+// Home page
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import api from '../services/api';
@@ -47,7 +48,7 @@ const Home = () => {
 
   return (
     <div>
-      {/* Hero Section */}
+      {/* Hero section */}
       <section className="bg-gradient-to-r from-primary-600 to-primary-800 text-white py-20">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl font-bold mb-6">

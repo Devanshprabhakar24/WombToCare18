@@ -1,9 +1,7 @@
+// Auth middleware
 import AuthService from '../services/AuthService.js';
 
-/**
- * Authentication middleware - Verifies JWT token
- * Attaches user data to request object
- */
+// Authenticate token
 export const authenticateToken = async (req, res, next) => {
     try {
         // Extract token from Authorization header
@@ -41,11 +39,7 @@ export const authenticateToken = async (req, res, next) => {
     }
 };
 
-/**
- * Authorization middleware factory - Checks user role
- * @param {Array<string>} allowedRoles - Array of allowed roles
- * @returns {Function} - Middleware function
- */
+// Authorize role
 export const authorizeRole = (allowedRoles) => {
     return (req, res, next) => {
         if (!req.user) {

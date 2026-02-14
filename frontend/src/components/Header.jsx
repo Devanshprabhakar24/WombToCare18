@@ -6,10 +6,10 @@ const Header = () => {
   const { user, logout } = useAuth();
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Different nav links based on role
+  // Nav links by role
   const getNavLinks = () => {
     if (user?.role === 'admin') {
-      // Admin sees admin-focused links
+      // Admin links
       return [
         { to: '/admin', label: 'Dashboard' },
         { to: '/programs', label: 'Programs' },
@@ -20,7 +20,7 @@ const Header = () => {
     }
 
     if (user?.role === 'donor') {
-      // Donor sees donor-focused links
+      // Donor links
       return [
         { to: '/', label: 'Home' },
         { to: '/dashboard', label: 'My Dashboard' },
@@ -32,7 +32,7 @@ const Header = () => {
       ];
     }
 
-    // Not logged in — public links
+    // Public links
     return [
       { to: '/', label: 'Home' },
       { to: '/about', label: 'About' },
@@ -56,7 +56,7 @@ const Header = () => {
             WombTo18 Foundation
           </Link>
 
-          {/* Mobile menu button */}
+          {/* Mobile menu */}
           <button
             onClick={() => setMenuOpen(!menuOpen)}
             className="md:hidden text-gray-700 text-2xl"
@@ -64,7 +64,7 @@ const Header = () => {
             {menuOpen ? '✕' : '☰'}
           </button>
 
-          {/* Desktop Nav */}
+          {/* Desktop nav */}
           <div className="hidden md:flex items-center space-x-4 text-sm">
             {navLinks.map((link) => (
               <Link key={link.to} to={link.to} className="text-gray-700 hover:text-primary-600">
@@ -108,7 +108,7 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Nav */}
+        {/* Mobile nav */}
         {menuOpen && (
           <div className="md:hidden mt-4 pb-4 border-t pt-4 space-y-3">
             {navLinks.map((link) => (

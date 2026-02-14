@@ -1,10 +1,8 @@
+// Blog logic
 import Blog from '../models/Blog.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
-/**
- * Get all published posts (blog or press)
- * @route GET /api/blog?category=blog|press
- */
+// All posts
 export const getPosts = asyncHandler(async (req, res) => {
     const { category } = req.query;
     const query = { published: true };
@@ -30,10 +28,7 @@ export const getPosts = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get single post by ID
- * @route GET /api/blog/:id
- */
+// Single post
 export const getPostById = asyncHandler(async (req, res) => {
     const post = await Blog.findById(req.params.id).lean();
 
@@ -56,10 +51,7 @@ export const getPostById = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Create a new post (admin only)
- * @route POST /api/blog
- */
+// Create post
 export const createPost = asyncHandler(async (req, res) => {
     const { title, content, excerpt, author, category, imageURL } = req.body;
 
@@ -72,10 +64,7 @@ export const createPost = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Update a post (admin only)
- * @route PUT /api/blog/:id
- */
+// Update post
 export const updatePost = asyncHandler(async (req, res) => {
     const post = await Blog.findByIdAndUpdate(
         req.params.id,
@@ -90,10 +79,7 @@ export const updatePost = asyncHandler(async (req, res) => {
     res.status(200).json({ success: true, data: post, message: 'Post updated successfully' });
 });
 
-/**
- * Delete a post (admin only)
- * @route DELETE /api/blog/:id
- */
+// Delete post
 export const deletePost = asyncHandler(async (req, res) => {
     const post = await Blog.findByIdAndDelete(req.params.id);
 

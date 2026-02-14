@@ -1,3 +1,4 @@
+// Blog routes
 import express from 'express';
 import { getPosts, getPostById, createPost, updatePost, deletePost } from '../controllers/blogController.js';
 import { authenticateToken, authorizeRole } from '../middleware/auth.js';

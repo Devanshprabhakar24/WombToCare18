@@ -1,8 +1,7 @@
+// Validation util
 import { body, param, query, validationResult } from 'express-validator';
 
-/**
- * Validation middleware to check for validation errors
- */
+// Validation middleware
 export const validate = (req, res, next) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
@@ -21,9 +20,7 @@ export const validate = (req, res, next) => {
     next();
 };
 
-/**
- * Validation rules for user registration
- */
+// Register validation
 export const registerValidation = [
     body('name')
         .trim()
@@ -55,9 +52,7 @@ export const registerValidation = [
         .withMessage('Role must be either donor or admin'),
 ];
 
-/**
- * Validation rules for user login
- */
+// Login validation
 export const loginValidation = [
     body('email')
         .trim()
@@ -69,9 +64,7 @@ export const loginValidation = [
     body('password').notEmpty().withMessage('Password is required'),
 ];
 
-/**
- * Validation rules for creating a donation order
- */
+// Donation order validation
 export const createOrderValidation = [
     body('amount')
         .notEmpty()
@@ -99,9 +92,7 @@ export const createOrderValidation = [
         .withMessage('Public name cannot exceed 100 characters'),
 ];
 
-/**
- * Validation rules for creating a program
- */
+// Program creation validation
 export const createProgramValidation = [
     body('programName')
         .trim()
@@ -130,9 +121,7 @@ export const createProgramValidation = [
         .withMessage('Status must be active, completed, or archived'),
 ];
 
-/**
- * Validation rules for updating program funds
- */
+// Update funds validation
 export const updateFundsValidation = [
     body('amount')
         .notEmpty()
@@ -143,9 +132,7 @@ export const updateFundsValidation = [
         .withMessage('Amount cannot be negative'),
 ];
 
-/**
- * Validation rules for uploading a report
- */
+// Report upload validation
 export const uploadReportValidation = [
     body('programId')
         .notEmpty()
@@ -174,16 +161,12 @@ export const uploadReportValidation = [
         .withMessage('Funds utilized cannot be negative'),
 ];
 
-/**
- * Validation rules for MongoDB ObjectId params
- */
+// MongoId param validation
 export const mongoIdValidation = [
     param('id').isMongoId().withMessage('Invalid ID format'),
 ];
 
-/**
- * Validation rules for updating user profile
- */
+// Profile update validation
 export const updateProfileValidation = [
     body('name')
         .optional()
@@ -197,11 +180,9 @@ export const updateProfileValidation = [
         .withMessage('Please provide a valid 10-digit phone number'),
 ];
 
-/**
- * Sanitize input to prevent injection attacks
- */
+// Sanitize input
 export const sanitizeInput = (req, res, next) => {
-    // Remove any potential MongoDB operators from request body
+    // Remove Mongo ops
     const sanitize = (obj) => {
         if (typeof obj !== 'object' || obj === null) return obj;
 

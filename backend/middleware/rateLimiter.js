@@ -1,13 +1,10 @@
+// Rate limiter
 import rateLimit from 'express-rate-limit';
 
-/**
- * Rate limiter for authentication endpoints
- * Prevents brute force attacks
- * More lenient in development mode
- */
+// Auth rate limiter
 export const authLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: process.env.NODE_ENV === 'production' ? 5 : 100, // 5 in production, 100 in development
+    windowMs: 15 * 60 * 1000, // 15 min
+    max: process.env.NODE_ENV === 'production' ? 5 : 100, // prod/dev
     message: {
         error: {
             message: 'Too many authentication attempts, please try again after 15 minutes',
@@ -15,8 +12,8 @@ export const authLimiter = rateLimit({
             timestamp: new Date().toISOString(),
         },
     },
-    standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
-    legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+    standardHeaders: true, // RateLimit-*
+    legacyHeaders: false, // No X-RateLimit
     handler: (req, res) => {
         res.status(429).json({
             error: {
@@ -26,18 +23,14 @@ export const authLimiter = rateLimit({
             },
         });
     },
-    // Skip rate limiting in development if needed
+    // Skip in dev
     skip: (req) => process.env.NODE_ENV === 'development' && process.env.SKIP_RATE_LIMIT === 'true',
 });
 
-/**
- * General API rate limiter
- * Prevents API abuse
- * More lenient in development mode
- */
+// API rate limiter
 export const apiLimiter = rateLimit({
-    windowMs: 15 * 60 * 1000, // 15 minutes
-    max: process.env.NODE_ENV === 'production' ? 100 : 1000, // 100 in production, 1000 in development
+    windowMs: 15 * 60 * 1000, // 15 min
+    max: process.env.NODE_ENV === 'production' ? 100 : 1000, // prod/dev
     message: {
         error: {
             message: 'Too many requests, please try again later',
@@ -47,6 +40,6 @@ export const apiLimiter = rateLimit({
     },
     standardHeaders: true,
     legacyHeaders: false,
-    // Skip rate limiting in development if needed
+    // Skip in dev
     skip: (req) => process.env.NODE_ENV === 'development' && process.env.SKIP_RATE_LIMIT === 'true',
 });

@@ -1,11 +1,8 @@
+// Auth logic
 import AuthService from '../services/AuthService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
-/**
- * Register new user
- * @route POST /api/auth/register
- * @access Public
- */
+// Register user
 export const register = asyncHandler(async (req, res) => {
     const { name, email, phone, password, role } = req.body;
 
@@ -24,11 +21,7 @@ export const register = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Login user
- * @route POST /api/auth/login
- * @access Public
- */
+// Login user
 export const login = asyncHandler(async (req, res) => {
     const { email, password } = req.body;
 
@@ -41,11 +34,7 @@ export const login = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Get current user
- * @route GET /api/auth/me
- * @access Private
- */
+// Get user
 export const getMe = asyncHandler(async (req, res) => {
     const user = await AuthService.getUserById(req.user.userId);
 

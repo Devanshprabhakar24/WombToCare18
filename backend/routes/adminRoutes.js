@@ -1,3 +1,4 @@
+// Admin routes
 import express from 'express';
 import {
     getAdminDashboard,
@@ -14,14 +15,14 @@ import { authenticateToken, authorizeRole } from '../middleware/auth.js';
 
 const router = express.Router();
 
-// All routes require admin authentication
+// Admin only
 router.use(authenticateToken, authorizeRole(['admin']));
 
 router.get('/dashboard', getAdminDashboard);
 router.get('/donations', getAllDonations);
 router.get('/donors', getAllDonors);
 
-// Email scheduler management
+// Scheduler routes
 router.get('/scheduler/status', getEmailSchedulerStatus);
 router.get('/scheduler/options', getEmailScheduleOptions);
 router.post('/scheduler/trigger', triggerEmailScheduler);

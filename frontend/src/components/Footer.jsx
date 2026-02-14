@@ -1,3 +1,6 @@
+// Footer component
+  // Quick links
+  // Contact info
 import React from 'react';
 import { Link } from 'react-router-dom';
 

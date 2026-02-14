@@ -1,3 +1,4 @@
+// Error handler
 /**
  * Custom Error Classes
  */
@@ -75,11 +76,9 @@ export class ServiceUnavailableError extends Error {
     }
 }
 
-/**
- * Global error handler middleware
- */
+// Global error handler
 export const errorHandler = (err, req, res, next) => {
-    // Log error with context
+    // Log error
     const errorLog = {
         message: err.message,
         stack: err.stack,
@@ -92,10 +91,10 @@ export const errorHandler = (err, req, res, next) => {
 
     console.error('Error occurred:', errorLog);
 
-    // Determine status code
+    // Set status code
     const statusCode = err.statusCode || 500;
 
-    // Build error response
+    // Error response
     const errorResponse = {
         error: {
             message: err.message || 'Internal server error',
@@ -104,24 +103,24 @@ export const errorHandler = (err, req, res, next) => {
         },
     };
 
-    // Add fields for validation errors
+    // Validation fields
     if (err.fields) {
         errorResponse.error.fields = err.fields;
     }
 
-    // Don't expose internal error details in production
+    // Hide details prod
     if (process.env.NODE_ENV === 'production' && statusCode === 500) {
         errorResponse.error.message = 'An unexpected error occurred';
         delete errorResponse.error.stack;
     } else if (process.env.NODE_ENV !== 'production') {
-        // Include stack trace in development
+        // Dev stack trace
         errorResponse.error.stack = err.stack;
     }
 
-    // Handle specific error types
+    // Specific errors
     if (err.name === 'MongoError' || err.name === 'MongoServerError') {
         if (err.code === 11000) {
-            // Duplicate key error
+            // Duplicate key
             errorResponse.error.message = 'A record with this information already exists';
             errorResponse.error.code = 'DUPLICATE_ERROR';
             return res.status(409).json(errorResponse);
@@ -146,13 +145,11 @@ export const errorHandler = (err, req, res, next) => {
         return res.status(401).json(errorResponse);
     }
 
-    // Send error response
+    // Send response
     res.status(statusCode).json(errorResponse);
 };
 
-/**
- * 404 Not Found handler
- */
+// 404 handler
 export const notFoundHandler = (req, res) => {
     res.status(404).json({
         error: {
@@ -163,9 +160,7 @@ export const notFoundHandler = (req, res) => {
     });
 };
 
-/**
- * Async handler wrapper to catch errors in async route handlers
- */
+// Async error wrapper
 export const asyncHandler = (fn) => (req, res, next) => {
     Promise.resolve(fn(req, res, next)).catch(next);
 };

@@ -1,13 +1,10 @@
+// Cert logic
 import CertificateService from '../services/CertificateService.js';
 import DonationService from '../services/DonationService.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import path from 'path';
 
-/**
- * Get certificate by donation ID
- * @route GET /api/certificates/donation/:donationId
- * @access Private
- */
+// Get certificate
 export const getCertificate = asyncHandler(async (req, res) => {
     const { donationId } = req.params;
 
@@ -31,11 +28,7 @@ export const getCertificate = asyncHandler(async (req, res) => {
     });
 });
 
-/**
- * Download certificate file
- * @route GET /api/certificates/download/:filename
- * @access Public (with valid filename)
- */
+// Download cert
 export const downloadCertificate = asyncHandler(async (req, res) => {
     const { filename } = req.params;
 

@@ -1,3 +1,4 @@
+// User model
 import mongoose from 'mongoose';
 
 const userSchema = new mongoose.Schema({
@@ -53,10 +54,10 @@ const userSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-// Index for faster email lookups
+// Email index
 userSchema.index({ email: 1 });
 
-// Update the updatedAt timestamp before saving
+// Update updatedAt
 userSchema.pre('save', function (next) {
     this.updatedAt = Date.now();
     next();

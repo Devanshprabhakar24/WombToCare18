@@ -1,3 +1,4 @@
+// Donation model
 import mongoose from 'mongoose';
 
 const donationSchema = new mongoose.Schema({
@@ -40,7 +41,7 @@ const donationSchema = new mongoose.Schema({
         type: String,
         trim: true,
         maxlength: [100, 'Public name cannot exceed 100 characters'],
-        // Required if visibilityChoice is 'public'
+        // If public
         validate: {
             validator: function (value) {
                 if (this.visibilityChoice === 'public') {
@@ -54,7 +55,7 @@ const donationSchema = new mongoose.Schema({
     donorId: {
         type: String,
         trim: true,
-        // Required if visibilityChoice is 'anonymous'
+        // If anonymous
         validate: {
             validator: function (value) {
                 if (this.visibilityChoice === 'anonymous') {
@@ -82,11 +83,11 @@ const donationSchema = new mongoose.Schema({
     timestamps: true,
 });
 
-// Indexes for faster queries
+// Indexes
 donationSchema.index({ userId: 1 });
 donationSchema.index({ programId: 1 });
 donationSchema.index({ razorpayPaymentId: 1 });
-donationSchema.index({ createdAt: -1 }); // For sorting by date
+donationSchema.index({ createdAt: -1 }); // Sort by date
 
 const Donation = mongoose.model('Donation', donationSchema);
 

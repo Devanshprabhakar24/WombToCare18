@@ -158,7 +158,7 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      {/* Admin Header */}
+      {/* Admin header */}
       <div className="bg-gradient-to-r from-gray-800 to-gray-900 text-white py-6">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between">
@@ -196,10 +196,10 @@ const AdminDashboard = () => {
 
       <div className="container mx-auto px-4 py-6">
 
-        {/* ==================== OVERVIEW TAB ==================== */}
+        {/* Overview tab */}
         {activeTab === 'overview' && (
           <div className="space-y-6">
-            {/* Stats Grid */}
+            {/* Stats grid */}
             <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
               <div className="bg-white rounded-xl shadow-md p-5 border-l-4 border-primary-500">
                 <p className="text-gray-500 text-xs mb-1">Total Donations</p>
@@ -220,7 +220,7 @@ const AdminDashboard = () => {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-              {/* Recent Donations */}
+              {/* Recent donations */}
               <div className="bg-white rounded-xl shadow-md p-5">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg font-semibold">Recent Donations</h2>
@@ -251,7 +251,7 @@ const AdminDashboard = () => {
                 )}
               </div>
 
-              {/* Programs Summary */}
+              {/* Programs summary */}
               <div className="bg-white rounded-xl shadow-md p-5">
                 <div className="flex justify-between items-center mb-4">
                   <h2 className="text-lg font-semibold">Programs</h2>
@@ -292,7 +292,7 @@ const AdminDashboard = () => {
               </div>
             </div>
 
-            {/* Quick Stats Row */}
+            {/* Quick stats */}
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="bg-green-50 border border-green-200 rounded-xl p-4 text-center">
                 <p className="text-2xl font-bold text-green-600">{completedDonations.length}</p>
@@ -310,7 +310,7 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* ==================== DONATIONS TAB ==================== */}
+        {/* Donations tab */}
         {activeTab === 'donations' && (
           <div className="bg-white rounded-xl shadow-md p-6">
             <h2 className="text-xl font-semibold mb-4">All Donations ({donations.length})</h2>
@@ -358,7 +358,7 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* ==================== DONORS TAB ==================== */}
+        {/* Donors tab */}
         {activeTab === 'donors' && (
           <div className="bg-white rounded-xl shadow-md p-6">
             <h2 className="text-xl font-semibold mb-4">All Donors ({donors.length})</h2>
@@ -395,7 +395,7 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* ==================== PROGRAMS TAB ==================== */}
+        {/* Programs tab */}
         {activeTab === 'programs' && (
           <div className="space-y-6">
             <div className="flex justify-between items-center">
@@ -408,7 +408,7 @@ const AdminDashboard = () => {
               </button>
             </div>
 
-            {/* Create Program Form */}
+            {/* Create program */}
             {showProgramForm && (
               <form onSubmit={handleCreateProgram} className="bg-white rounded-xl shadow-md p-6">
                 <h3 className="font-semibold mb-4">New Program</h3>
@@ -440,7 +440,7 @@ const AdminDashboard = () => {
               </form>
             )}
 
-            {/* Programs List */}
+            {/* Programs list */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {programs.map(p => {
                 const received = p.fundsReceived || 0;
@@ -473,13 +473,13 @@ const AdminDashboard = () => {
           </div>
         )}
 
-        {/* ==================== SCHEDULER TAB ==================== */}
+        {/* Scheduler tab */}
         {activeTab === 'scheduler' && (
           <div className="space-y-6">
             <h2 className="text-xl font-semibold">Email Scheduler</h2>
 
             <div className="bg-white rounded-xl shadow-md p-6">
-              {/* Enable/Disable */}
+              {/* Enable/disable */}
               <div className="flex items-center justify-between mb-6 pb-6 border-b">
                 <div className="flex items-center gap-3">
                   <span className={`inline-block w-3 h-3 rounded-full ${schedulerStatus?.enabled ? 'bg-green-500' : 'bg-red-500'}`}></span>
@@ -499,7 +499,7 @@ const AdminDashboard = () => {
                 </button>
               </div>
 
-              {/* Schedule Time */}
+              {/* Schedule time */}
               <div className="flex items-center justify-between mb-6 pb-6 border-b">
                 <span className="font-medium">Schedule Time</span>
                 <form onSubmit={handleUpdateSchedule} className="flex items-center gap-3">
@@ -537,7 +537,7 @@ const AdminDashboard = () => {
                 </form>
               </div>
 
-              {/* Send Now */}
+              {/* Send now */}
               <div className="flex items-center justify-between">
                 <span className="font-medium">Send Now</span>
                 <button
